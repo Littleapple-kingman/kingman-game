@@ -24,7 +24,7 @@ function App() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [onlineReady, setOnlineReady] = useState(false);
   const [savedMessage, setSavedMessage] = useState('');
-  const gameRef = useRef({ lane: 1, score: 0, shells: 0, objects: [], lastSpawn: 0, lastFrame: 0, speed: 0.28, ended: false });
+  const gameRef = useRef({ lane: 1, score: 0, shells: 0, objects: [], lastSpawn: 0, lastFrame: 0, speed: 0.045, ended: false });
   const touchStart = useRef(null);
 
   const loadLeaderboard = useCallback(async () => {
@@ -59,7 +59,7 @@ function App() {
   }, [best, submitScore]);
 
   const startGame = () => {
-    gameRef.current = { lane: 1, score: 0, shells: 0, objects: [], lastSpawn: 0, lastFrame: 0, speed: 0.28, ended: false };
+    gameRef.current = { lane: 1, score: 0, shells: 0, objects: [], lastSpawn: 0, lastFrame: 0, speed: 0.045, ended: false };
     setLane(1); setScore(0); setShells(0); setObjects([]); setSavedMessage(''); setStatus('playing');
   };
 
@@ -80,8 +80,8 @@ function App() {
       const dt = Math.min(40, now - g.lastFrame); g.lastFrame = now;
       if (g.ended) return;
       g.score += dt * 0.012;
-      g.speed = Math.min(0.62, 0.28 + g.score / 9000);
-      if (now - g.lastSpawn > Math.max(520, 1050 - g.score / 7)) {
+      g.speed = Math.min(0.16, 0.045 + g.score / 18000);
+      if (now - g.lastSpawn > Math.max(1100, 1800 - g.score / 12)) {
         const kind = Math.random() < 0.64 ? 'shell' : 'rock';
         let l = randomLane();
         if (g.objects.some(o => o.y < 15 && o.lane === l)) l = (l + 1) % 3;
